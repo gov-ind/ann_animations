@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HNSW Demo</title>
+</head>
+<body style="margin: 0px;">
+  <video id="my_video" width="1280" height="640">
+    <source src="video_red_2.mp4" type="video/mp4" />
+  </video>
+
+  <script>
+    times = {
+      0: 0,
+      1: 2,
+      2: 4,
+      3: 12,
+      4: 21,
+      5: 23,
+      6: 25,
+      7: 28,
+      8: 30,
+      9: 37,
+      10: 77,
+      11: 82,
+      12: 113,
+      13: 116,
+      14: 120,
+      15: 143.5,
+      16: 148,
+      17: 169,
+      18: 180,
+      19: 186,
+      20: 190,
+      21: 193,
+      22: 196,
+      23: 199,
+      24: 204,
+      25: 218,
+      26: 246
+    }
+    mnPage = currPage = 0;
+    mxPage = Object.keys(times).length - 1;
+    const video = document.getElementById("my_video");
+
+    // Play/pause video when the spacebar is pressed
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault(); // Prevent scrolling
+        if (video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      }
+    });
+
+    setInterval(() => {
+        if (currPage < mxPage) {
+            if (video.currentTime >= times[currPage + 1]) {
+                video.pause();
+                currPage++;
+                video.currentTime = times[currPage] - .001;
+            }
+        }
+    }, 100);
+
+    // Seek forward/backward in the video using left/right arrow keys
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "ArrowRight") {
+        if (currPage != mxPage) {
+            currPage++;
+            video.currentTime = times[currPage];
+            video.pause();
+        }
+      } else if (event.code === "ArrowLeft") {
+        if (currPage != mnPage) {
+            //currPage--;
+            if (video.currentTime == times[currPage]) {
+              currPage--;
+            }
+            video.currentTime = times[currPage];
+            video.pause();
+        }
+      }
+    });
+  </script>
+  <style>
+    html {
+      height: 100%;
+    }
+    body {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RP Trees Demo</title>
+</head>
+<body style="margin: 0px;">
+  <video id="my_video" width="1280" height="640">
+    <source src="video_red.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    times = {
+        0: 0,
+        1: 2,
+        2: 6.5,
+        3: 9.5,
+        4: 13,
+        5: 17.5,
+        6: 22,
+        7: 27,
+        8: 37,
+        9: 42,
+        10: 50.5,
+        11: 57,
+        12: 62.5,
+        13: 82,
+        14: 92,
+        15: 97,
+        16: 101,
+        17: 104,
+        18: 108,
+        19: 122,
+        20: 126,
+        21: 129,
+        22: 132,
+        23: 156,
+        24: 164,
+        25: 167,
+        26: 174,
+        27: 177,
+        28: 180,
+        29: 187,
+        30: 192,
+        31: 199
+    }
+    mnPage = currPage = 0;
+    mxPage = Object.keys(times).length - 1;
+    const video = document.getElementById("my_video");
+
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault(); // Prevent scrolling
+        if (video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      }
+    });
+
+    setInterval(() => {
+        if (currPage < mxPage) {
+            if (video.currentTime >= times[currPage + 1]) {
+                video.pause();
+                currPage++;
+                video.currentTime = times[currPage] - .001;
+            }
+        }
+    }, 10);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "ArrowRight") {
+        if (currPage != mxPage) {
+            currPage++;
+            video.currentTime = times[currPage];
+            video.pause();
+        }
+      } else if (event.code === "ArrowLeft") {
+        if (currPage != mnPage) {
+            //currPage--;
+            if (video.currentTime == times[currPage]) {
+              currPage--;
+            }
+            video.currentTime = times[currPage];
+            video.pause();
+        }
+      }
+    });
+  </script>
+  <style>
+    html {
+      height: 100%;
+    }
+    body {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</body>
+</html>
